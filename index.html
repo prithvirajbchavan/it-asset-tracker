@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AssetDesk · IT Asset &amp; License Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ee;--sf:#fff;--ink:#17231f;--mut:#6b7872;--line:#e6e1d8;--ac:#047857;--acx:#fff;--soft:#e6f4ee;--warn:#b45309;--wsoft:#fdf1dc;--bad:#b42318;--bsoft:#fde8e6;--ok:#15803d;--blue:#1d4ed8;--side:#0c1f1a;--sidt:#a9bdb5;--sh:0 1px 2px rgba(23,35,31,.05),0 4px 14px rgba(23,35,31,.05);color-scheme:light}
+:root[data-theme=dark]{--bg:#0b1411;--sf:#121e1a;--ink:#e8f0ec;--mut:#8ea29a;--line:#233630;--ac:#34d399;--acx:#05231a;--soft:#12332a;--warn:#f5b061;--wsoft:#352711;--bad:#ff8f85;--bsoft:#3a1916;--ok:#6fd48f;--blue:#7ba3ff;--side:#07100d;--sidt:#8ea29a;--sh:0 1px 2px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
+h1,h2,.serif{font-family:Fraunces,Georgia,serif}h2{font-size:16px;margin:0 0 12px;font-weight:600}
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{background:var(--side);color:var(--sidt);padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;gap:10px;align-items:center;color:#fff;font:700 18px Fraunces,serif;padding:0 8px 22px}.brand i{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#34d399,#f59e0b);display:grid;place-items:center;color:#06231a}
+.nav{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:inherit;font:500 14px Inter;padding:10px 12px;border-radius:9px;cursor:pointer;text-align:left}
+.nav:hover{background:rgba(255,255,255,.06);color:#fff}.nav[aria-current=page]{background:rgba(52,211,153,.15);color:#fff}
+.nav b{margin-left:auto;background:#f59e0b;color:#2a1700;border-radius:9px;padding:0 7px;font-size:11px}
+.foot{margin-top:auto;font-size:12px;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:10px}.foot b{color:#fff;display:block}
+svg.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.main{padding:22px 28px 56px;max-width:1180px;width:100%}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:20px}.top h1{font-size:26px;margin:0;flex:1}.top small{display:block;font:400 13px Inter;color:var(--mut)}
+.search{position:relative;width:280px}.search svg{position:absolute;left:11px;top:10px;color:var(--mut)}.search input{padding-left:34px}
+input,select{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%}
+select.in{width:auto;padding:5px 8px;font-size:13px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+.btn{display:inline-flex;gap:6px;align-items:center;background:var(--ac);color:var(--acx);border:0;border-radius:9px;padding:9px 14px;font:600 13px Inter;cursor:pointer}.btn.alt{background:var(--sf);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:3px 10px}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--sh)}
+.banner{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;background:linear-gradient(120deg,#0c1f1a,#0f4a3a 70%,#7a5410);color:#fff;border-radius:18px;padding:24px 28px;margin-bottom:16px}
+.banner h2{font-size:22px;color:#fff;margin:0 0 4px}.banner p{margin:0;color:#cfe3da;max-width:560px}
+.ring{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;position:relative}.ring:before{content:"";position:absolute;inset:11px;background:#0d2a22;border-radius:50%}.ring span{position:relative;font:700 26px Fraunces,serif}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.kpi{display:flex;gap:12px;align-items:center}.kpi .ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--soft);color:var(--ac)}
+.kpi.warn .ico{background:var(--wsoft);color:var(--warn)}.kpi.bad .ico{background:var(--bsoft);color:var(--bad)}.kpi b{font:700 22px Fraunces,serif;display:block;line-height:1.1}.kpi span{color:var(--mut);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.bar{display:grid;grid-template-columns:96px 1fr 30px;gap:10px;align-items:center;margin:9px 0;font-size:13px}.bar .t{height:9px;background:var(--line);border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:5px}.bar.warn i{background:var(--warn)}.bar.bad i{background:var(--bad)}.bar b{text-align:right}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:16px}.ev{position:relative;padding:0 0 14px}.ev:before{content:"";position:absolute;left:-23px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--ac);border:2px solid var(--sf)}.ev.warn:before{background:var(--warn)}.ev.bad:before{background:var(--bad)}.ev small{display:block;color:var(--mut)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.chip{border:1px solid var(--line);background:var(--sf);color:var(--mut);border-radius:20px;padding:5px 12px;font:500 13px Inter;cursor:pointer}.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+table{width:100%;border-collapse:collapse}th{font:600 11px Inter;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}tr:last-child td{border:0}tbody tr:hover{background:var(--soft)}.scroll{overflow-x:auto}.mono{font-variant-numeric:tabular-nums;color:var(--mut);font-size:12px}.nm b{display:block}.nm small{color:var(--mut)}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font:600 12px Inter;background:var(--soft);color:var(--ok);white-space:nowrap}.pill.Critical{background:var(--bsoft);color:var(--bad)}.pill.High{background:var(--wsoft);color:var(--warn)}.pill.Medium{background:#e7eefc;color:var(--blue)}.pill.Low{background:var(--line);color:var(--mut)}
+:root[data-theme=dark] .pill.Medium{background:#17274a}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}.lc .hd{display:flex;justify-content:space-between;gap:8px;margin-bottom:14px}.lc .big{font:700 28px Fraunces,serif}.lc .big small{font:400 13px Inter;color:var(--mut)}.lc .t{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:8px 0 12px}.lc .t i{display:block;height:100%;background:var(--ac)}.lc .row{display:flex;justify-content:space-between;align-items:center;color:var(--mut);font-size:13px}
+.sev{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.sev .card{padding:12px 14px}.sev b{font:700 24px Fraunces,serif;display:block}
+.empty{color:var(--mut);padding:20px 4px;text-align:center}
+dialog{border:0;border-radius:16px;padding:22px;width:min(440px,92vw);background:var(--sf);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}dialog::backdrop{background:rgba(8,16,13,.55)}
+dialog label{display:block;font-size:12px;color:var(--mut);margin:12px 0 4px}dialog .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+@media(max-width:860px){.app{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:10px}.brand{padding:0 10px 0 4px}.foot{display:none}.nav{width:auto;white-space:nowrap}.main{padding:16px}.banner{grid-template-columns:1fr}.top{flex-wrap:wrap}.search{width:100%;order:3}.sev{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="brand"><i><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 13l9 5 9-5M3 17.5l9 5 9-5"/></svg></i>AssetDesk</div>
+<div id="nav"></div>
+<div class="foot"><b>IT operations</b>Hardware, licenses &amp; data health in one place.</div>
+</aside>
+<main class="main">
+<div class="top"><h1 id="title"></h1>
+<div class="search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Search assets, serials, owners" aria-label="Search assets"></div>
+<button class="btn alt" data-act="theme" aria-label="Toggle theme"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button></div>
+<div id="view"></div>
+</main>
+</div>
+<dialog id="da"><h2>Add asset</h2><label for="a_n">Name</label><input id="a_n"><label for="a_t">Type</label><select id="a_t"></select><label for="a_s">Serial number</label><input id="a_s"><label for="a_w">Warranty end</label><input id="a_w" type="date"><div class="acts"><button class="btn alt" data-act="close">Cancel</button><button class="btn" data-act="addasset">Add asset</button></div></dialog>
+<dialog id="dl"><h2>Add license</h2><label for="l_n">Software</label><input id="l_n"><label for="l_v">Vendor</label><input id="l_v"><label for="l_s">Seats</label><input id="l_s" inputmode="numeric"><label for="l_r">Renewal date</label><input id="l_r" type="date"><div class="acts"><button class="btn alt" data-act="close">Cancel</button><button class="btn" data-act="addlic">Add license</button></div></dialog>
+<script>
+var H=864e5,PEOPLE=["Priya N.","Karan S.","Neha R.","Amit D.","Front desk","IT pool"],TYPES=["Laptop","Desktop","Monitor","Printer","Phone","Network"],STAT=["In use","In stock","In repair","Retired"],SEV=["Critical","High","Medium","Low"],RANK={Critical:3,High:2,Medium:1,Low:0};
+var IC={grid:"M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",box:"M21 8 12 3 3 8v8l9 5 9-5V8ZM3 8l9 5 9-5M12 13v8",key:"M15 7a4 4 0 1 1-3.5 6L4 20.5V17h3v-3h3l1.5-1.5A4 4 0 0 1 15 7Z",shield:"M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Zm-3 9 2 2 4-4",plus:"M12 5v14M5 12h14",dl:"M12 4v12m0 0-4-4m4 4 4-4M4 20h16",user:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0",clock:"M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"};
+function ic(n){return'<svg class="ic" viewBox="0 0 24 24"><path d="'+IC[n]+'"/></svg>'}
+function iso(n){return new Date(Date.now()+n*H).toISOString().slice(0,10)}
+var S={tab:"dash",q:"",fs:"All",sv:"All",assets:[],lic:[],na:108,nl:205};
+function seed(){S.assets=[
+{id:"AST-101",name:"Dell Latitude 5440",type:"Laptop",serial:"DL5440-8821",owner:"Priya N.",status:"In use",warranty:iso(240)},
+{id:"AST-102",name:"HP LaserJet M404",type:"Printer",serial:"HPM404-1177",owner:"Front desk",status:"In use",warranty:iso(25)},
+{id:"AST-103",name:"Lenovo ThinkPad E14",type:"Laptop",serial:"LNE14-5530",owner:"",status:"In stock",warranty:iso(400)},
+{id:"AST-104",name:"Dell Latitude 5440",type:"Laptop",serial:"DL5440-8821",owner:"Karan S.",status:"In use",warranty:iso(240)},
+{id:"AST-105",name:"Dell 24 Monitor",type:"Monitor",serial:"",owner:"Neha R.",status:"In use",warranty:iso(-30)},
+{id:"AST-106",name:"Cisco Switch 2960",type:"Network",serial:"CS2960-0042",owner:"",status:"In use",warranty:""},
+{id:"AST-107",name:"iPhone 13",type:"Phone",serial:"IP13-7781",owner:"Amit D.",status:"In repair",warranty:iso(90)}];
+S.lic=[{id:"LIC-201",name:"Microsoft 365",vendor:"Microsoft",seats:50,used:46,renewal:iso(120)},{id:"LIC-202",name:"Zoom",vendor:"Zoom",seats:25,used:29,renewal:iso(18)},{id:"LIC-203",name:"Adobe Acrobat",vendor:"Adobe",seats:10,used:3,renewal:iso(200)},{id:"LIC-204",name:"VPN Client",vendor:"Cisco",seats:40,used:38,renewal:""}]}
+try{var d=JSON.parse(localStorage.getItem("itat")||"null");if(d&&d.assets)S=Object.assign(S,d);else seed()}catch(e){seed()}
+var live=false;
+function save(){var st={assets:S.assets,lic:S.lic,na:S.na,nl:S.nl};try{localStorage.setItem("itat",JSON.stringify(st))}catch(e){}if(live){try{fetch("/api/state",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(st)}).catch(function(){})}catch(e){}}}
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function days(s){return s?Math.ceil((new Date(s+"T00:00:00")-new Date(new Date().toDateString()))/H):null}
+function sum(a,f){return a.reduce(function(s,x){return s+f(x)},0)}
+function issues(){var o=[],seen={};S.assets.forEach(function(a){if(a.serial)seen[a.serial]=(seen[a.serial]||0)+1});
+S.assets.forEach(function(a){var d=days(a.warranty);
+if(!a.serial)o.push({id:a.id,sev:"High",msg:"Missing serial number",tab:"assets"});else if(seen[a.serial]>1)o.push({id:a.id,sev:"Critical",msg:"Duplicate serial "+a.serial,tab:"assets"});
+if(a.status==="In use"&&!a.owner)o.push({id:a.id,sev:"High",msg:"In use but no owner assigned",tab:"assets"});
+if(a.status!=="Retired"){if(d===null)o.push({id:a.id,sev:"Medium",msg:"No warranty date",tab:"assets"});else if(d<0)o.push({id:a.id,sev:"High",msg:"Warranty expired "+(-d)+" days ago",tab:"assets"});else if(d<=60)o.push({id:a.id,sev:"Medium",msg:"Warranty ends in "+d+" days",tab:"assets"})}});
+S.lic.forEach(function(l){var d=days(l.renewal);
+if(l.used>l.seats)o.push({id:l.id,sev:"Critical",msg:"Over-allocated: "+l.used+" used of "+l.seats+" seats",tab:"lic"});else if(l.seats&&l.used/l.seats<.5)o.push({id:l.id,sev:"Low",msg:"Under-used: below 50% of seats",tab:"lic"});
+if(d===null)o.push({id:l.id,sev:"Medium",msg:"No renewal date",tab:"lic"});else if(d<0)o.push({id:l.id,sev:"High",msg:"Renewal overdue",tab:"lic"});else if(d<=30)o.push({id:l.id,sev:"Medium",msg:"Renews in "+d+" days",tab:"lic"})});
+return o}
+function flag(id,is){var l=is.filter(function(x){return x.id===id});if(!l.length)return'<span class="pill">Clean</span>';var m=l.reduce(function(a,x){return RANK[x.sev]>RANK[a]?x.sev:a},"Low");return'<span class="pill '+m+'">'+l.length+(l.length>1?" issues":" issue")+'</span>'}
+function bars(k,v,cls,fix){var m=Math.max.apply(null,v.concat([fix||1]));return k.map(function(x,i){return'<div class="bar '+(cls?cls(x,v[i]):"")+'"><span>'+esc(x)+'</span><span class="t"><i style="width:'+Math.min(100,Math.round(v[i]/m*100))+'%"></i></span><b>'+v[i]+'</b></div>'}).join("")}
+function cnt(l,f,k){return k.map(function(x){return l.filter(function(y){return f(y)===x}).length})}
+function score(is){var ids={};is.forEach(function(x){ids[x.id]=1});var t=S.assets.length+S.lic.length,b=Object.keys(ids).length;return{t:t,b:b,s:t?Math.round((1-b/t)*100):100}}
+function nav(){var n=issues().length;$("nav").innerHTML=[["dash","Overview","grid"],["assets","Assets","box"],["lic","Licenses","key"],["dq","Data quality","shield"]].map(function(x){return'<button class="nav" data-act="tab" data-v="'+x[0]+'"'+(S.tab===x[0]?' aria-current="page"':"")+'>'+ic(x[2])+x[1]+(x[0]==="dq"&&n?'<b>'+n+'</b>':"")+'</button>'}).join("")}
+function dash(){var is=issues(),sc=score(is),a=S.assets.filter(function(x){return x.status!=="Retired"}),un=a.filter(function(x){return !x.owner}).length,wr=a.filter(function(x){var d=days(x.warranty);return d!==null&&d<=60}).length,su=sum(S.lic,function(l){return l.used}),ss=sum(S.lic,function(l){return l.seats}),rn=S.lic.filter(function(l){var d=days(l.renewal);return d!==null&&d>=0&&d<=30}).length,up=[];
+S.assets.forEach(function(x){var d=days(x.warranty);if(x.status!=="Retired"&&d!==null&&d<=60)up.push({t:"Warranty · "+x.name+" ("+x.id+")",d:d})});S.lic.forEach(function(l){var d=days(l.renewal);if(d!==null&&d<=60)up.push({t:"Renewal · "+l.name,d:d})});up.sort(function(x,y){return x.d-y.d});
+var cr=is.filter(function(x){return x.sev==="Critical"}).length,lp=S.lic.map(function(l){return l.seats?Math.round(l.used/l.seats*100):0});
+var K=[["Active assets",a.length,"","box"],["Without owner",un,un?"warn":"","user"],["Warranty at risk",wr,wr?"bad":"","shield"],["Seats used",(ss?Math.round(su/ss*100):0)+"%","","key"],["Renewals ≤30d",rn,rn?"warn":"","clock"]];
+return'<div class="banner"><div class="ring" style="background:conic-gradient(#34d399 0 '+sc.s+'%,#f59e0b '+sc.s+'% 100%)"><span>'+sc.s+'%</span></div><div><h2>Inventory health</h2><p>'+(sc.t-sc.b)+' of '+sc.t+' records are clean. '+(cr?cr+' critical issue'+(cr>1?"s need":" needs")+' attention first.':'No critical issues right now.')+'</p></div></div>'+
+'<div class="kpis">'+K.map(function(k){return'<div class="card kpi '+k[2]+'"><div class="ico">'+ic(k[3])+'</div><div><b>'+k[1]+'</b><span>'+k[0]+'</span></div></div>'}).join("")+'</div>'+
+'<div class="grid"><div class="card"><h2>Assets by status</h2>'+bars(STAT,cnt(S.assets,function(x){return x.status},STAT),function(k){return k==="In repair"?"warn":""})+'</div>'+
+'<div class="card"><h2>License utilisation</h2>'+bars(S.lic.map(function(l){return l.name}),lp,function(k,v){return v>100?"bad":v>=90?"warn":""},100)+'</div>'+
+'<div class="card"><h2>Upcoming (60 days)</h2>'+(up.length?'<div class="tl">'+up.slice(0,6).map(function(x){return'<div class="ev '+(x.d<0?"bad":x.d<=14?"warn":"")+'">'+esc(x.t)+'<small>'+(x.d<0?"Expired "+(-x.d)+" days ago":x.d===0?"Today":"In "+x.d+" days")+'</small></div>'}).join("")+'</div>':'<p class="empty">Nothing due soon.</p>')+'</div>'+
+'<div class="card"><h2>Top issues</h2>'+(is.length?is.slice().sort(function(x,y){return RANK[y.sev]-RANK[x.sev]}).slice(0,5).map(function(x){return'<div style="display:flex;gap:8px;align-items:center;padding:6px 0"><span class="pill '+x.sev+'">'+x.sev+'</span><span class="mono">'+x.id+'</span><span>'+esc(x.msg)+'</span></div>'}).join(""):'<p class="empty">All clear.</p>')+'</div></div>'}
+function sel(l,v,id,f,blank){return'<select class="in" data-id="'+id+'" data-f="'+f+'" aria-label="'+f+'">'+(blank?'<option value="">'+blank+'</option>':'')+l.map(function(x){return'<option'+(x===v?" selected":"")+'>'+esc(x)+'</option>'}).join("")+'</select>'}
+function assets(){var is=issues(),q=S.q.toLowerCase(),l=S.assets.filter(function(a){return(S.fs==="All"||a.status===S.fs)&&(!q||(a.id+a.name+a.serial+a.owner).toLowerCase().indexOf(q)>-1)});
+return'<div class="card"><div style="display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap"><div class="chips">'+["All"].concat(STAT).map(function(x){return'<button class="chip" data-act="fs" data-v="'+x+'" aria-pressed="'+(S.fs===x)+'">'+x+'</button>'}).join("")+'</div><div><button class="btn alt" data-act="csv" data-v="assets">'+ic("dl")+'Export</button> <button class="btn" data-act="open" data-v="da">'+ic("plus")+'Add asset</button></div></div><div class="scroll"><table><thead><tr><th>ID</th><th>Asset</th><th>Serial</th><th>Owner</th><th>Status</th><th>Warranty</th><th>Checks</th></tr></thead><tbody>'+
+l.map(function(a){return'<tr><td class="mono">'+a.id+'</td><td class="nm"><b>'+esc(a.name)+'</b><small>'+esc(a.type)+'</small></td><td class="mono">'+esc(a.serial||"-")+'</td><td>'+sel(PEOPLE,a.owner,a.id,"owner","Unassigned")+'</td><td>'+sel(STAT,a.status,a.id,"status")+'</td><td class="mono">'+esc(a.warranty||"-")+'</td><td>'+flag(a.id,is)+'</td></tr>'}).join("")+'</tbody></table></div>'+(l.length?'':'<p class="empty">No assets match.</p>')+'</div>'}
+function lics(){var is=issues();return'<div style="text-align:right;margin-bottom:12px"><button class="btn" data-act="open" data-v="dl">'+ic("plus")+'Add license</button></div><div class="lgrid">'+S.lic.map(function(l){var p=l.seats?Math.round(l.used/l.seats*100):0,d=days(l.renewal),c=p>100?"var(--bad)":p>=90?"var(--warn)":"var(--ac)";
+return'<div class="card lc"><div class="hd"><div class="nm"><b>'+esc(l.name)+'</b><small>'+esc(l.vendor)+' · '+l.id+'</small></div>'+flag(l.id,is)+'</div><div class="big">'+l.used+'<small> / '+l.seats+' seats · '+p+'%</small></div><div class="t"><i style="width:'+Math.min(100,p)+'%;background:'+c+'"></i></div><div class="row"><span>'+(l.renewal?"Renews "+esc(l.renewal)+(d!==null&&d>=0?" ("+d+"d)":""):"No renewal date")+'</span><span><button class="btn alt sm" data-act="use" data-id="'+l.id+'" data-v="-1" aria-label="Remove one seat">−</button> <button class="btn alt sm" data-act="use" data-id="'+l.id+'" data-v="1" aria-label="Add one seat">+</button></span></div></div>'}).join("")+'</div>'}
+function dq(){var all=issues().sort(function(a,b){return RANK[b.sev]-RANK[a.sev]}),is=all.filter(function(x){return S.sv==="All"||x.sev===S.sv});
+return'<div class="sev">'+SEV.map(function(s){return'<div class="card"><span class="pill '+s+'">'+s+'</span><b>'+all.filter(function(x){return x.sev===s}).length+'</b></div>'}).join("")+'</div><div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><div class="chips">'+["All"].concat(SEV).map(function(x){return'<button class="chip" data-act="sv" data-v="'+x+'" aria-pressed="'+(S.sv===x)+'">'+x+'</button>'}).join("")+'</div><button class="btn alt" data-act="csv" data-v="dq">'+ic("dl")+'Export</button></div>'+(is.length?'<div class="scroll"><table><thead><tr><th>Severity</th><th>Record</th><th>Issue</th><th></th></tr></thead><tbody>'+is.map(function(x){return'<tr><td><span class="pill '+x.sev+'">'+x.sev+'</span></td><td class="mono">'+x.id+'</td><td>'+esc(x.msg)+'</td><td><button class="btn alt sm" data-act="goto" data-v="'+x.tab+'">Open</button></td></tr>'}).join("")+'</tbody></table></div>':'<p class="empty">No issues in this view.</p>')+'</div>'}
+var TT={dash:["Overview","Live snapshot of your estate"],assets:["Assets","Hardware, owners and warranties"],lic:["Licenses","Seats, usage and renewals"],dq:["Data quality","Automatic checks on every record"]};
+function view(){nav();var t=TT[S.tab];$("title").innerHTML=t[0]+'<small>'+t[1]+'</small>';document.querySelector(".search").style.visibility=S.tab==="assets"?"visible":"hidden";$("view").innerHTML=S.tab==="dash"?dash():S.tab==="assets"?assets():S.tab==="lic"?lics():dq();save()}
+function val(i){var e=$(i);return e?e.value.trim():""}
+function csv(name,rows){var t=rows.map(function(r){return r.map(function(v){return'"'+String(v==null?"":v).replace(/"/g,'""')+'"'}).join(",")}).join("\n");try{var u=URL.createObjectURL(new Blob([t],{type:"text/csv"})),a=document.createElement("a");a.href=u;a.download=name;a.click()}catch(e){}}
+$("a_t").innerHTML=TYPES.map(function(x){return"<option>"+x+"</option>"}).join("");
+var th=null;try{th=localStorage.getItem("itat-theme")}catch(e){}if(th)document.documentElement.dataset.theme=th;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act;
+if(a==="tab"||a==="goto"){S.tab=t.dataset.v;if(S.tab!=="assets"){S.q="";$("q").value=""}}
+else if(a==="fs")S.fs=t.dataset.v;else if(a==="sv")S.sv=t.dataset.v;
+else if(a==="theme"){var n=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("itat-theme",n)}catch(x){}return}
+else if(a==="open"){$(t.dataset.v).showModal();return}
+else if(a==="close"){t.closest("dialog").close();return}
+else if(a==="use"){var l=S.lic.filter(function(x){return x.id===t.dataset.id})[0];l.used=Math.max(0,l.used+Number(t.dataset.v))}
+else if(a==="addasset"){var n2=val("a_n");if(!n2){$("a_n").focus();return}S.assets.push({id:"AST-"+S.na++,name:n2,type:val("a_t"),serial:val("a_s"),owner:"",status:"In stock",warranty:val("a_w")});["a_n","a_s","a_w"].forEach(function(i){$(i).value=""});$("da").close();S.tab="assets"}
+else if(a==="addlic"){var m=val("l_n");if(!m){$("l_n").focus();return}S.lic.push({id:"LIC-"+S.nl++,name:m,vendor:val("l_v")||"-",seats:Number(val("l_s"))||0,used:0,renewal:val("l_r")});["l_n","l_v","l_s","l_r"].forEach(function(i){$(i).value=""});$("dl").close();S.tab="lic"}
+else if(a==="csv"){if(t.dataset.v==="assets")csv("assets.csv",[["ID","Name","Type","Serial","Owner","Status","Warranty"]].concat(S.assets.map(function(x){return[x.id,x.name,x.type,x.serial,x.owner,x.status,x.warranty]})));else csv("data-quality-issues.csv",[["Severity","Record","Issue"]].concat(issues().map(function(x){return[x.sev,x.id,x.msg]})));return}
+view()});
+$("q").addEventListener("input",function(e){S.q=e.target.value;var pos=e.target.selectionStart;view();var q=$("q");q.focus();q.setSelectionRange(pos,pos)});
+document.addEventListener("change",function(e){var t=e.target;if(t.dataset&&t.dataset.f){var a=S.assets.filter(function(x){return x.id===t.dataset.id})[0];if(a){a[t.dataset.f]=t.value;view()}}});
+view();
+try{fetch("/api/state").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){if(d&&d.assets&&d.assets.length)S=Object.assign(S,d);live=true;view()}).catch(function(){})}catch(e){}
+</script>
+</body>
+</html>
